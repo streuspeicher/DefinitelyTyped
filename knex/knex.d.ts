@@ -35,7 +35,7 @@ declare module "knex" {
 
   function Knex(config: Knex.Config) : Knex;
 
-  namespace Knex {
+  module Knex {
     //
     // QueryInterface
     //
@@ -243,7 +243,7 @@ declare module "knex" {
       wrap(before: string, after: string): Raw;
     }
     
-    interface RawBuilder {
+    export interface RawBuilder {
       (value: Value): Raw;
       (sql: string, ...bindings: Value[]): Raw;
       (sql: string, bindings: Value[]): Raw;
@@ -253,7 +253,7 @@ declare module "knex" {
     // QueryBuilder
     //
     
-    interface QueryBuilder extends QueryInterface, ChainableInterface {
+    export interface QueryBuilder extends QueryInterface, ChainableInterface {
       or: QueryBuilder;
       and: QueryBuilder;
     
@@ -288,7 +288,7 @@ declare module "knex" {
       exec(callback: Function): QueryBuilder;
     }
     
-    interface Transaction extends QueryBuilder {
+    export interface Transaction extends QueryBuilder {
       commit: any;
       rollback: any;
     }
@@ -297,7 +297,7 @@ declare module "knex" {
     // Schema builder
     //
     
-    interface SchemaBuilder {
+    export interface SchemaBuilder {
       createTable(tableName: string, callback: (tableBuilder: CreateTableBuilder) => any): Promise<void>;
       renameTable(oldTableName: string, newTableName: string): Promise<void>;
       dropTable(tableName: string): Promise<void>;
@@ -308,7 +308,7 @@ declare module "knex" {
       raw(statement: string): SchemaBuilder;
     }
     
-    interface TableBuilder {
+    export interface TableBuilder {
       increments(columnName?: string): ColumnBuilder;
       dropColumn(columnName: string): TableBuilder;
       dropColumns(...columnNames: string[]): TableBuilder;
@@ -326,8 +326,8 @@ declare module "knex" {
       timestamp(columnName: string): ColumnBuilder;
       timestamps(): ColumnBuilder;
       binary(columnName: string): ColumnBuilder;
-      enum(columnName: string): ColumnBuilder;
-      enu(columnName: string): ColumnBuilder;
+      enum(columnName: string, values: string[]): ColumnBuilder;
+      enu(columnName: string, values: string[]): ColumnBuilder;
       json(columnName: string): ColumnBuilder;
       uuid(columnName: string): ColumnBuilder;
       comment(val: string): TableBuilder;
@@ -340,7 +340,7 @@ declare module "knex" {
     interface CreateTableBuilder extends TableBuilder {
     }
     
-    interface MySqlTableBuilder extends CreateTableBuilder {
+    export interface MySqlTableBuilder extends CreateTableBuilder {
       engine(val: string): CreateTableBuilder;
       charset(val: string): CreateTableBuilder;
       collate(val: string): CreateTableBuilder;
@@ -352,7 +352,7 @@ declare module "knex" {
     interface MySqlAlterTableBuilder extends AlterTableBuilder {
     }
     
-    interface ColumnBuilder {
+    export interface ColumnBuilder {
       index(indexName?: string): ColumnBuilder;
       primary(): ColumnBuilder;
       unique(): ColumnBuilder;
@@ -366,18 +366,18 @@ declare module "knex" {
       comment(value: string): ColumnBuilder;
     }
     
-    interface PostgreSqlColumnBuilder extends ColumnBuilder {
+    export interface PostgreSqlColumnBuilder extends ColumnBuilder {
       index(indexName?: string, indexType?: string): ColumnBuilder;
     }
     
-    interface ReferencingColumnBuilder {
+    export interface ReferencingColumnBuilder {
       inTable(tableName: string): ColumnBuilder;
     }
     
     interface AlterColumnBuilder extends ColumnBuilder {
     }
     
-    interface MySqlAlterColumnBuilder extends AlterColumnBuilder {
+    export interface MySqlAlterColumnBuilder extends AlterColumnBuilder {
       first(): AlterColumnBuilder;
       after(columnName: string): AlterColumnBuilder;
     }
@@ -393,7 +393,7 @@ declare module "knex" {
       nullable: boolean;
     }
     
-    interface Config {
+    export interface Config {
       client?: string;
       dialect?: string;
       connection: string|ConnectionConfig|
@@ -402,7 +402,7 @@ declare module "knex" {
       migrations?: MigrationConfig;
     }
     
-    interface ConnectionConfig {
+    export interface ConnectionConfig {
       host: string;
       user: string;
       password: string;
@@ -411,12 +411,12 @@ declare module "knex" {
     }
     
     /** Used with SQLite3 adapter */
-    interface Sqlite3ConnectionConfig {
+    export interface Sqlite3ConnectionConfig {
       filename: string;
       debug?: boolean;
     }
     
-    interface SocketConnectionConfig {
+    export interface SocketConnectionConfig {
       socketPath: string;
       user: string;
       password: string;
@@ -424,7 +424,7 @@ declare module "knex" {
       debug?: boolean;
     }
     
-    interface PoolConfig {
+    export interface PoolConfig {
       name?: string;
       create?: Function;
       destroy?: Function;
@@ -439,7 +439,7 @@ declare module "knex" {
       log?: boolean;
     }
     
-    interface MigrationConfig {
+    export interface MigrationConfig {
       database?: string;
       directory?: string;
       extension?: string;
